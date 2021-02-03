@@ -135,7 +135,7 @@ void measureSignal(){
       M5.Lcd.fillScreen(BLACK);
       M5.Lcd.setCursor(1,3,1);
       M5.Lcd.println("LAWAAI!");
-      M5.Lcd.println("Waarde: "+String(y));
+      M5.Lcd.println("Waarde: "+String(max));
       M5.Lcd.println("Notificatie verzonden");
     }
     send_http_request(max);
