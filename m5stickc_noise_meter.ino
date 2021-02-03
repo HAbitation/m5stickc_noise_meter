@@ -60,7 +60,7 @@ void send_http_request(int y)
       if (debug) {
         M5.Lcd.fillScreen(BLACK);
         M5.Lcd.setCursor(1,3,1);
-        M5.Lcd.print("Het is weer stil...");
+        M5.Lcd.print("Is is quiet again...");
       }
     }
   catch (...)
@@ -87,7 +87,7 @@ void setup() {
   M5.Lcd.setRotation(3);
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextColor(WHITE, BLACK);
-  M5.Lcd.println("-- LAWAAI SENSOR --");
+  M5.Lcd.println("-- NOISE SENSOR --");
 
   WiFi.begin(wifi_ssid.c_str(), wifi_password.c_str());
 
@@ -96,7 +96,7 @@ void setup() {
   if (debug) {
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.setCursor(1,3,1);
-    M5.Lcd.print("Het is stil...");
+    M5.Lcd.print("Is is quiet again...");
   } else {
     M5.Axp.ScreenBreath(0);
   }
@@ -134,9 +134,9 @@ void measureSignal(){
     if (debug) {
       M5.Lcd.fillScreen(BLACK);
       M5.Lcd.setCursor(1,3,1);
-      M5.Lcd.println("LAWAAI!");
-      M5.Lcd.println("Waarde: "+String(max));
-      M5.Lcd.println("Notificatie verzonden");
+      M5.Lcd.println("Noise!!");
+      M5.Lcd.println("Amp value: "+String(max));
+      M5.Lcd.println("Notification sent");
     }
     send_http_request(max);
   }
