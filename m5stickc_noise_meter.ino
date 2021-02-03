@@ -19,7 +19,7 @@ String wifi_password = ""; //configure your WiFi PSK
 int threshold = 1500; //configure the threshold that has to be exceeded before an alert is being sent
 String http_endpoint = ""; //configure the HTTP API endpoint to call when the threshold has been exceeded. Note that the exceeded value will be send as an additional argument in the URL
 
-int custom_delay = 60000; //use this delay to rate-limit the HTTP requests and prevent spamming of the endpoint
+int custom_delay = 10000; //use this delay to rate-limit the HTTP requests and prevent spamming of the endpoint
 
 bool debug = false; //debug mode, enable to show more info on the LCD
 
