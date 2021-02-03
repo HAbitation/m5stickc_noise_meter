@@ -16,10 +16,10 @@ int16_t *adcBuffer = NULL;
 String wifi_ssid = ""; //configure your WiFi SSID
 String wifi_password = ""; //configure your WiFi PSK
 
-int threshold = -4000; //configure the threshold that has to be exceeded before an alert is being sent
+int threshold = 1500; //configure the threshold that has to be exceeded before an alert is being sent
 String http_endpoint = ""; //configure the HTTP API endpoint to call when the threshold has been exceeded. Note that the exceeded value will be send as an additional argument in the URL
 
-int custom_delay = 10000; //use this delay to rate-limit the HTTP requests and prevent spamming of the endpoint
+int custom_delay = 60000; //use this delay to rate-limit the HTTP requests and prevent spamming of the endpoint
 
 bool debug = false; //debug mode, enable to show more info on the LCD
 
@@ -98,8 +98,7 @@ void setup() {
     M5.Lcd.setCursor(1,3,1);
     M5.Lcd.print("Het is stil...");
   } else {
-    M5.Lcd.sleep();
-    M5.Lcd.setBrightness(0);
+    M5.Axp.ScreenBreath(0);
   }
 
   i2sInit();
@@ -123,22 +122,23 @@ boolean checkConnection() {
 }
 
 void measureSignal(){
-  bool once_per_signal = false;
   int y;
+  int max = -10000;
   for (int n = 0; n < 160; n++){
     y = adcBuffer[n] * GAIN_FACTOR;
-    if (y != 0 && y > threshold && once_per_signal == false) {
-      once_per_signal = true;
-      Serial.println(y);
-      if (debug) {
-        M5.Lcd.fillScreen(BLACK);
-        M5.Lcd.setCursor(1,3,1);
-        M5.Lcd.println("LAWAAI!");
-        M5.Lcd.println("Waarde: "+String(y));
-        M5.Lcd.println("Notificatie verzonden");
-      }
-      send_http_request(y);
+    if (y > max) {
+      max = y;
     }
+  }
+  if (max > threshold) {
+    if (debug) {
+      M5.Lcd.fillScreen(BLACK);
+      M5.Lcd.setCursor(1,3,1);
+      M5.Lcd.println("LAWAAI!");
+      M5.Lcd.println("Waarde: "+String(y));
+      M5.Lcd.println("Notificatie verzonden");
+    }
+    send_http_request(max);
   }
 }
 
